@@ -10,13 +10,14 @@ var createArticle = (req, res) => {
   })
 
   newArticle.save((error, response) => {
-    if (error) res.json({msg: `Something error newArticle: ${error}`, success: false})
+    if (error) res.send(err)
     else {
       Articles.findById(response._id)
       .populate('author')
       .then((error, response) => {
-        if (error) res.json({msg: `Something error getDetailArticles: ${error}`, success: false})
+        if (error) res.send(err)
         else {
+          console.log(response);
           res.send(response)
         }
       })
