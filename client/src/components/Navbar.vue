@@ -1,51 +1,28 @@
 <template lang="html">
-  <nav class="navbar navbar-default">
-  <div class="container-fluid">
-
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Brand</a>
+  <el-menu theme="dark" class="el-menu-demo" mode="horizontal">
+    <el-menu-item index="1">HactivPress-Blog</el-menu-item>
+    <div class="user_menu" style="float:right" v-show="statusLogin == null">
+      <el-menu-item index="1" @click="signInDialog">SignIn</el-menu-item>
+      <el-menu-item index="1" @click="signUpDialog">SignUp</el-menu-item>
     </div>
 
-
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Register</a></li>
-          </ul>
-        </li>
-      </ul>
-      <form id="signin" class="navbar-form navbar-right" role="form">
-          <div class="input-group">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-              <input id="email" type="email" class="form-control" name="email" value="" placeholder="Email Address">
-          </div>
-
-          <div class="input-group">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-              <input id="password" type="password" class="form-control" name="password" value="" placeholder="Password">
-          </div>
-
-          <button type="submit" class="btn btn-primary">Login</button>
-     </form>
-   </div>
-  </div>
-</nav>
-
+    <el-submenu index="2" style="float:right;" v-show="statusLogin">
+      <template slot="title"><b>Welcome, {{userActive}}</b></template>
+      <el-menu-item index="2-2" @click="toProfile">Profile</el-menu-item>
+      <el-menu-item index="2-3" @click="toHome">Home</el-menu-item>
+      <el-menu-item index="2-4" @click="signOut">SignOut</el-menu-item>
+    </el-submenu>
+  </el-menu>
 </template>
 
 <script>
-  export default {
-    name: 'Navbar'
+export default {
+    data () {
+      return {
+        username: '',
+        password: ''
+      }
+    }
   }
 </script>
 
