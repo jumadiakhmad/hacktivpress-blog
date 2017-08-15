@@ -1,24 +1,24 @@
 const Articles = require('../models/articleModel');
 const Users = require('../models/userModel');
 
-var createArticle = (req,res) => {
-  var newArticle = new Articles ({
+var createArticle = (req, res) => {
+  let newArticle = new Articles({
     title: req.body.title,
     content: req.body.content,
     category: req.body.category,
     author: req.body.author
   })
 
-  newArticle.save( (err, response) => {
-    if(err) {
-      res.send(err)
-    } else {
-      Articles.findById(response._id
+  newArticle.save((error, response) => {
+    if (error) res.json({msg: `Something error newArticle: ${error}`, success: false})
+    else {
+      Articles.findById(response._id)
       .populate('author')
-      .then( (err,result) => {
-        if(err) res.send(err)
-        console.log('Success Tambah Data', result);
-        res.send(result)
+      .then((error, response) => {
+        if (error) res.json({msg: `Something error getDetailArticles: ${error}`, success: false})
+        else {
+          res.send(response)
+        }
       })
     }
   })

@@ -1,14 +1,15 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
-var articleSchema = new Schema ({
+let articleSchema = new Schema({
   title: String,
   content: String,
   category: String,
-  author: {[ type: Schema.Types.ObjectId, ref: 'books']}
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: 'users'
+  }
 })
 
 var Articles = mongoose.model('articles', articleSchema)
-
-
-module.exports = Articles;
+module.exports = Articles

@@ -5,28 +5,24 @@ const jwt = require('jsonwebtoken')
 const secret = process.env.SECRET_KEY;
 
 var signIn = (req,res) => {
-  var password = req.body.password
-  Users.findOne({username: req.body.password}, (err,response) => {
-    if(err) {
-        res.send(err)
-    } else {
-        if(bcrypt.compareSync(password, response.password) {
-          let token = jwt.sign({
-            id: response._id,
-            username: resonse.username,
-            email: response.email
-          }, secret, {expires: '1d'})
-          res.json({
-            username: response._id,
-            email: response.email,
-            token
-          })
-        }
-    } else {
-      res.send(err)
+  Users.findOne({username:req.body.username}, function(err,data){ //mencari data
+    if (data) { // apabila menemukan
+      if (data.password === req.body.password) { //apabila data password sama dengan user password
+
+        var token = jwt.sign(data, 'jwtsecret', { // melakukan generate token di jwt
+          algorithm: 'HS256'
+        });
+        res.json({message:'berhasil login', token: token});
+
+      } else { //apabila salah password
+        res.json({message:'password salah'});
+      }
+    } else { //apabila username tidak di temukan
+      res.json({message:'username tidak di temukan'});
     }
-  })
+  });
 }
+
 
 var signUp = (req,res) => {
   var password = req.body.password
